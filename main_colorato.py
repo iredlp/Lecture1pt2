@@ -1,4 +1,4 @@
-from colorama import init, Fore, Back, Style
+from colorama import init, Fore, Back, Style #per stampare colorato
 from datetime import date
 
 from gestionale.core.clienti import Cliente, ClienteRecord
