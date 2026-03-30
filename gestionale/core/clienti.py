@@ -36,7 +36,8 @@ class ClienteRecord:
     nome: str
     mail: str
     categoria: str
-
+    
+    #per stampare
     def __str__(self):
         return f"{self.nome} -- {self.mail} ({self.categoria})"
 

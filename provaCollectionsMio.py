@@ -1,9 +1,9 @@
 import copy
-from collections import Counter
+from collections import Counter, deque
 
 from gestionale.core.clienti import Cliente, ClienteRecord
 from gestionale.core.prodotti import ProdottoRecord
-from gestionale.vendite.ordini import Ordine
+from gestionale.vendite.ordini import Ordine, RigaOrdine
 
 p1= ProdottoRecord("Laptop", 1200.0)
 p2= ProdottoRecord("Mouse", 20.0)
@@ -191,7 +191,7 @@ o1=Ordine([],ClienteRecord("Mario Rossi", "mail@polito.it", "Gold"))
 o2=Ordine([],ClienteRecord("Carlo verdi", "mail@polito.it", "Bronze"))
 o3=Ordine([],ClienteRecord("Fulvio Bianchi", "mail@polito.it", "Silver"))
 
-ordini_da_processare.append(o1, 0)
+ordini_da_processare.append(o1)
 ordini_da_processare.append(o2, 10)
 ordini_da_processare.append(o3, 3)
 
@@ -264,3 +264,25 @@ print(f"Vendite gennaio: {vendite_gennaio}")
 #metodi da RICORDARE per il counter
 #c.most_common(n) RESTITUISCE GLI N ELEMENTI PIù FREQUENTI
 #c.total() SOMMA DEI CONTEGGI
+
+#Deque
+print(f"=============================================================")
+coda_ordini=deque()
+
+for i in range(1,10):
+    cliente=ClienteRecord(f"Cliente{i}", f"cliente{i}@polito.it","Gold")
+    prodotto=ProdottoRecord(f"Prodotto{i}", 100.0*i)
+    ordine=Ordine([RigaOrdine(prodotto, 1), cliente])
+    coda_ordini.append(ordine)
+
+print(f"Ordini in coda:{len(coda_ordini)}")
+
+while coda_ordini:
+    odine_corrente=coda_ordini.popleft() #mi da l'ultimo inserito
+    print(f"Sto gestendo l'ordine del cliente: {odine_corrente.cliente}")
+
+print(f"Ho processato tutti gli ordini")
+
+
+
+
