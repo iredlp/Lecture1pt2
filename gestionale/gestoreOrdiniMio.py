@@ -7,8 +7,10 @@ Scrivere un software gestionle che abbia le seguenti funzionalità:
 """
 from collections import deque, Counter, defaultdict
 
+from gestionale.core.clienti import ClienteRecord
+from gestionale.core.prodotti import ProdottoRecord
 from gestionale.provaCollections import ordini_da_processare
-from gestionale.vendite.ordini import Ordine
+from gestionale.vendite.ordini import Ordine, RigaOrdine
 from provaCollectionsMio import prodotto
 
 
@@ -27,7 +29,9 @@ class GestoreOrdini:
 
     def processa_prossimo_ordine(self):
         """Questo metodo legge il prossimo ordine in coda e lo gestisce"""
-
+        print("\n" + "-"*60)
+        print("\n" + "-"*60)
+        
         #ASSICURIAMOCI CHE ESISTA L'ORDINE
         if not self._ordini_da_processare:
             print(f"Non ci sono ordini in coda")
@@ -55,7 +59,7 @@ class GestoreOrdini:
         print("Ordine correttamente procesato")
         return True
 
-    def gestisci_tutti_ordini(self):
+    def processa_tutti_ordini(self):
         """"Procecca tutti gli ordini presenti in coda"""
         print(f"Processando {len(self._ordini_da_processare)} ordini")
         while self._ordini_da_processare:
@@ -92,6 +96,40 @@ class GestoreOrdini:
         print(f"Fatturato per cateogira:")
         for cat, fatturato in self.get_distibuzione_categoria():
             print(f"{cat}: {fatturato}")
+
+def test_modulo():
+    sistema=GestoreOrdini()
+
+    ordini=[
+        Ordine([RigaOrdine(ProdottoRecord("Laptop", 1200.0), 1),
+                               RigaOrdine(ProdottoRecord("Mouse", 10.0), 3)
+        ], ClienteRecord("Mario Rossi", "mario@gmail.it", "Gold")),
+        Ordine([ RigaOrdine(ProdottoRecord("Laptop", 1200.0), 1),
+                                 RigaOrdine(ProdottoRecord("Mouse", 10.0), 2),
+                                 RigaOrdine(ProdottoRecord("Tablet", 500.0), 1),
+                                 RigaOrdine(ProdottoRecord("Cuffie", 250.0), 3)
+        ], ClienteRecord("Fulvio Binchi", "bianchi@gmail.com","Silver")),
+
+        Ordine([ RigaOrdine(ProdottoRecord("Laptop", 1200.0), 2),RigaOrdine(ProdottoRecord("Mouse", 10.0), 2)
+        ], ClienteRecord("Giuseppe Averta","giuseppe.averta@gmail.com","Silver")),
+
+        Ordine([ RigaOrdine(ProdottoRecord("Tablet", 900.0), 1), RigaOrdine(ProdottoRecord("Cuffie", 250.0), 3)
+        ], ClienteRecord("Carlo Masone","carlo@mail.it","Gold")),
+
+        Ordine([RigaOrdine(ProdottoRecord("Laptop", 1200.0), 1), RigaOrdine(ProdottoRecord("Mouse", 10.0), 3)
+        ], ClienteRecord("Francesca Pistilli","francesca@gmail.com","Bronze")) ]
+
+    for o in ordini:
+        sistema.add_ordine(o)
+
+    sistema.processa_tutti_ordini()
+    sistema.stampa_riepiloghi()
+            
+
+
+if __name__ == "__main__":
+    test_modulo()
+
 
 
 
