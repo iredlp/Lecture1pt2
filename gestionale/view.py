@@ -4,11 +4,11 @@ import flet as ft
 class View:
 
     def __init__(self, page):
-        self._page = page
+        self._page = page #page viene da "fuori"
         self._controller = None
         self._page.title = "TdP 2025 - Software Gestionale"
-        self._page.horizontal_alignment = "CENTER"
-        self._page.theme_mode = ft.ThemeMode.LIGHT
+        self._page.horizontal_alignment = "CENTER" #ALLINEA TUTTO AL CENTRO
+        self._page.theme_mode = ft.ThemeMode.LIGHT #RIMANE CHIARA
         self.update_page()
 
     def carica_interfaccia(self):
@@ -52,5 +52,5 @@ class View:
     def set_controller(self, c):
         self._controller = c
 
-    def update_page(self):
+    def update_page(self): #METODO PER AGGIORNARE LA PAGINE E QUESTO LO POSSO CHIAMARE NEL CONTROLLER
         self._page.update()
