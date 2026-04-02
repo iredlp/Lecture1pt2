@@ -40,6 +40,7 @@ class Controller:
                                          mail, categoria)
         self._model.add_ordine(ordine)
 
+        #RIPULISCO L'INTERFCCIA GRAFICA DAI VARI VALORI SALVATI
         self._view._txtInNomeP.value = ""
         self._view._txtInPrezzo.value = ""
         self._view._txtInQuantita.value = ""
