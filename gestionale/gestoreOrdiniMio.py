@@ -57,15 +57,20 @@ class GestoreOrdini:
         self._ordini_processati.append(ordine)
 
         print("Ordine correttamente procesato")
-        return True
+        return True, ordine
 
     def processa_tutti_ordini(self):
         """"Procecca tutti gli ordini presenti in coda"""
         print(f"Processando {len(self._ordini_da_processare)} ordini")
-        while self._ordini_da_processare:
-            self.processa_prossimo_ordine()
 
+        ordini=[]
+
+        while self._ordini_da_processare:
+            #Se chiamo uan variabile con _, vuol dire che non mi serve e non la userò
+            _, ordine=self.processa_prossimo_ordine()
+            ordini.append(ordine)
         print("Tutti gli ordini sono stati processati")
+        return ordini
 
     def get_statistiche_prodotti(self, top_n:int=5):
         """Questo metodo restituisce info sui prodotti più venduti. qìQuante unità sono state vendute di un certo prodotto"""

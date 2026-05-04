@@ -40,7 +40,7 @@ class GestoreOrdini:
         #Assicuriamoci che un ordine da processare esista.
         if not self._ordini_da_processare:
             print("Non ci sono ordini in coda.")
-            return False
+            return False, Ordine([], ClienteRecord("", "", " "))
 
         #Se esiste, gestiamo il primo in coda.
         ordine = self._ordini_da_processare.popleft() # Loigica FIFO
@@ -62,7 +62,7 @@ class GestoreOrdini:
 
         print("Ordine correttamente processato.")
 
-        return True
+        return True, ordine
 
     def processa_tutti_ordini(self):
         """Processa tutti gli ordini attualmente presenti in coda."""
@@ -88,20 +88,23 @@ class GestoreOrdini:
             valori.append((cat, totale_Fatturato))
         return valori
 
-    def stampa_riepilogo(self):
-        """Stampa info di massiam"""
-        print("\n" + "="*60)
-        print("Stato attuale del business:")
-        print(f"Ordini correttamente gestiti: {len(self._ordini_processati)}")
-        print(f"Ordini in coda: {len(self._ordini_da_processare)}")
+    def get_riepilogo(self):
+        """Restituisce una stringa con le info di massiam"""
+        sommario=" "
+        sommario+=("\n" + "="*60)
+       # sommario +=("Stato attuale del business:")
+        sommario +=(f"\nOrdini correttamente gestiti: {len(self._ordini_processati)}")
+        sommario +=(f"\nOrdini in coda: {len(self._ordini_da_processare)}")
 
-        print("Prodotti più venduti:")
+        sommario +=("\nProdotti più venduti:")
         for prod, quantità in self.get_statistiche_prodotti():
-            print(f"{prod}: {quantità}")
+            sommario +=(f"\n{prod}: {quantità}")
 
-        print(f"Fatturato per categoria:")
+        sommario +=(f"\nFatturato per categoria:")
         for cat, fatturato in self.get_distribuzione_categorie():
-            print(f"{cat} : {fatturato}")
+            sommario +=(f"\n{cat} : {fatturato}")
+        return sommario
+        sommario += ("\n" + "=" * 60)
 
 def test_modulo():
     sistema = GestoreOrdini()

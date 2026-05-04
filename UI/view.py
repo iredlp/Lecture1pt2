@@ -9,10 +9,10 @@ class View:
         self._page.title = "TdP 2025 - Software Gestionale"
         self._page.horizontal_alignment = "CENTER" #ALLINEA TUTTO AL CENTRO
         self._page.theme_mode = ft.ThemeMode.LIGHT #RIMANE CHIARA
+        self._txtInNomeP=None
         self.update_page()
 
     def carica_interfaccia(self):
-
         #Prodotto
         self._txtInNomeP = ft.TextField(label = "Nome prodotto", width=200)
         self._txtInPrezzo = ft.TextField(label = "Prezzo", width=200)
