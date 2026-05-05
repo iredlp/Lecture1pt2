@@ -1,6 +1,6 @@
 import mysql
 
-
+@classmethod #così non crea un istanza ogni volta richiamo, diventa un metodo della classe.
 class dbConnect:
     def getConnection(self):
         try:

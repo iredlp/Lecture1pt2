@@ -1,5 +1,6 @@
 import mysql.connector
 
+from dao.dbConnect import dbConnect
 from gestionale.core.prodotto import ProdottoRecord
 from gestionale.core.cliente import ClienteRecord
 
@@ -62,12 +63,14 @@ class DAO:
         return len(row)>0
 
     def hasProdotto(self, prodotto):
-        cnx = mysql.connector.connect(
-            user="root",
-            password="rootroot",
-            host="127.0.0.1",
-            database="sw_gestionale",
-        )
+        #cnx = mysql.connector.connect(
+         #   user="root",
+          #  password="rootroot",
+         #   host="127.0.0.1",
+          #  database="sw_gestionale",
+        #)
+        cnx=dbConnect.getConnection()
+
         cursor = cnx.cursor(dictionary=True)
         query = "select * from prodotto where nome=%s"
         cursor.execute(query, (prodotto.nome))
@@ -77,12 +80,13 @@ class DAO:
         return len(row) > 0
 
     def addProdotto(self, prodotto):
-        cnx = mysql.connector.connect(
-            user="root",
-            password="rootroot",
-            host="127.0.0.1",
-            database="sw_gestionale",
-        )
+       # cnx = mysql.connector.connect(
+        #    user="root",
+        #    password="rootroot",
+         #   host="127.0.0.1",
+         #   database="sw_gestionale",
+       # )
+        cnx = dbConnect.getConnection()
         cursor = cnx.cursor()
         query="""insert into prodotto(nome, prezzo) values(%s,%s)"""
         cursor.execute(query, (prodotto.name, prodotto.prezzo_unitario))
