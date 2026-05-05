@@ -7,9 +7,11 @@ assicurandomi che sia eseguito solo dopo gli altri.
 3) fornire statistiche sulla distribuzione di ordini per categoria di cliente.
 """
 from collections import deque, Counter, defaultdict
+from random import random
 
-from gestionale.core.clienti import ClienteRecord
-from gestionale.core.prodotti import ProdottoRecord
+from dao.dao import DAO
+from gestionale.core.prodotto import ProdottoRecord
+from gestionale.gestoreOrdiniMio import ClienteRecord
 from gestionale.vendite.ordini import Ordine, RigaOrdine
 
 
@@ -20,6 +22,23 @@ class GestoreOrdini:
         self._ordini_processati = []
         self._statistiche_prodotti = Counter()
         self._ordini_per_categoria = defaultdict(list)
+        self._dao = DAO()  # ISTANZA DEL DAO PER POTER USARE I METODI
+        self._allP = []
+        self._allC = []
+        self._fill_data()
+
+    def _fill_data(self):
+    #leggo prodotti e cienti dal DB e poi creo degli orsini randomici per testare l'app
+        self._allP.extend(self._dao.getAllProdotti())
+        self._allC.extend(self._dao.getAllClienti())
+
+        for i in range(10):
+            indexP= random.randint(0,len(self._allP)-1)
+            indexC = random.randint(0, len(self._allC)-1)
+
+            ordine=Ordine([RigaOrdine(self._allP[indexP], random.radint(1,5))],
+                          self._allC[indexC])
+            self.add_ordine(ordine)
 
     def add_ordine(self, ordine: Ordine):
         """Aggiunge un nuovo ordine agli elementi da gestire"""

@@ -6,9 +6,11 @@ Scrivere un software gestionle che abbia le seguenti funzionalità:
 3)fornire statistiche sulla distribu di ordini per categoria di cliente
 """
 from collections import deque, Counter, defaultdict
+from random import random
 
-from gestionale.core.clienti import ClienteRecord
-from gestionale.core.prodotti import ProdottoRecord
+from dao.dao import DAO
+from gestionale.core.prodotto import ProdottoRecord
+from gestionale.core.cliente import ClienteRecord
 from gestionale.provaCollections import ordini_da_processare
 from gestionale.vendite.ordini import Ordine, RigaOrdine
 from provaCollectionsMio import prodotto
@@ -20,6 +22,25 @@ class GestoreOrdini:
         self._ordini_processati=[]
         self._statistiche_prodotti=Counter()
         self._ordini_per_categoria=defaultdict(list) #uso un default dict per non dover fare il controllo sull'esistenza o no della categoria
+        self._dao=DAO() #ISTANZA DEL DAO PER POTER USARE I METODI
+        self._allP=[]
+        self._allC=[]
+        self._fill_data()
+
+
+    def _fill_data(self):
+    #leggo prodotti e cienti dal DB e poi creo degli orsini randomici per testare l'app
+        self._allP.extend(self._dao.getAllProdotti())
+        self._allC.extend(self._dao.getAllClienti())
+
+        for i in range(10):
+            indexP= random.randint(0,len(self._allP)-1)
+            indexC = random.randint(0, len(self._allC)-1)
+
+            ordine=Ordine([RigaOrdine(self._allP[indexP], random.radint(1,5))],
+                          self._allC[indexC])
+            self.add_ordine(ordine)
+
 
     def add_ordine(self, ordine:Ordine):
         #Aggiunge un nuovo ordine agli elemneti da gestire
@@ -101,6 +122,11 @@ class GestoreOrdini:
         print(f"Fatturato per cateogira:")
         for cat, fatturato in self.get_distibuzione_categoria():
             print(f"{cat}: {fatturato}")
+
+
+class ClienteRecord:
+    pass
+
 
 def test_modulo():
     sistema=GestoreOrdini()

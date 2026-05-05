@@ -1,8 +1,9 @@
 import copy
 from collections import Counter, deque
 
-from gestionale.core.clienti import Cliente, ClienteRecord
-from gestionale.core.prodotti import ProdottoRecord
+from gestionale.core.clienti import Cliente
+from gestionale.core.cliente import ClienteRecord
+from gestionale.core.prodotto import ProdottoRecord
 from gestionale.vendite.ordini import Ordine, RigaOrdine
 
 p1= ProdottoRecord("Laptop", 1200.0)
@@ -191,9 +192,9 @@ o1=Ordine([],ClienteRecord("Mario Rossi", "mail@polito.it", "Gold"))
 o2=Ordine([],ClienteRecord("Carlo verdi", "mail@polito.it", "Bronze"))
 o3=Ordine([],ClienteRecord("Fulvio Bianchi", "mail@polito.it", "Silver"))
 
-ordini_da_processare.append(o1)
-ordini_da_processare.append(o2, 10)
-ordini_da_processare.append(o3, 3)
+ordini_da_processare.append((o1, 2))
+ordini_da_processare.append((o2, 10))
+ordini_da_processare.append((o3, 3))
 
 """2) Memorizzare i CF dei Clienti (univoco)"""
 #SET
@@ -272,7 +273,7 @@ coda_ordini=deque()
 for i in range(1,10):
     cliente=ClienteRecord(f"Cliente{i}", f"cliente{i}@polito.it","Gold")
     prodotto=ProdottoRecord(f"Prodotto{i}", 100.0*i)
-    ordine=Ordine([RigaOrdine(prodotto, 1), cliente])
+    ordine=Ordine([RigaOrdine(prodotto, 1)], cliente)
     coda_ordini.append(ordine)
 
 print(f"Ordini in coda:{len(coda_ordini)}")
