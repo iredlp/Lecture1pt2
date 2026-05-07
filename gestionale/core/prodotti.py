@@ -129,3 +129,7 @@ def _test_modulo():
 
 if __name__ == "__main__":
     _test_modulo()
+
+
+class ProdottoRecord:
+    pass

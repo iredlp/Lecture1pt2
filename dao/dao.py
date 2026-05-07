@@ -8,13 +8,16 @@ from gestionale.core.cliente import ClienteRecord
 #il dao comunica con il db e raccoglie/organizza i suoi dati
 
 class DAO:
-    def getAllProdotti(self):
-        cnx=mysql.connector.connect(
-        user="root",
-        password="rootroot",
-        host="127.0.0.1",
-        database="sw_gestionale",
-        )
+    @staticmethod #COSì NON CREO SEMPRE UN'STANZA DEL Dao,
+    # COSì non sono metodi di classe e non devono acedervi, uso il Dao come modulo per accedere ai metodi
+    def getAllProdotti():
+        #cnx=mysql.connector.connect(
+       # user="root",
+        #password="rootroot",
+        #host="127.0.0.1",
+        #database="sw_gestionale",
+        #)
+        cnx=dbConnect.getConnection()
         cursor=cnx.cursor(dictionary=True)
         cursor.execute("select * from prodotti")
         row=cursor.fetchall() #restituisce tutte le righe pk non abbiamo specificato l'output che mi aspetto
@@ -27,13 +30,15 @@ class DAO:
         cnx.close()
         return res
 
-    def getAllClienti(self):
-        cnx = mysql.connector.connect(
-            user="root",
-            password="rootroot",
-            host="127.0.0.1",
-            database="sw_gestionale",
-        )
+    @staticmethod
+    def getAllClienti():
+        #cnx = mysql.connector.connect(
+            #user="root",
+           # password="rootroot",
+           # host="127.0.0.1",
+           # database="sw_gestionale",
+       # )
+        cnx = dbConnect.getConnection()
         cursor = cnx.cursor(dictionary=True)
         query = "select * from clienti "
         cursor.execute(query)
@@ -47,13 +52,15 @@ class DAO:
         cnx.close()
         return
 
-    def hasClienti(self, cliente):
-        cnx=mysql.connector.connect(
-        user="root",
-        password="rootroot",
-        host="127.0.0.1",
-        database="sw_gestionale",
-        )
+    @staticmethod
+    def hasClienti( cliente):
+       # cnx=mysql.connector.connect(
+       # user="root",
+       # password="rootroot",
+        #host="127.0.0.1",
+       # database="sw_gestionale",
+        #)
+        cnx = dbConnect.getConnection()
         cursor=cnx.cursor(dictionary=True)
         query="select * from clienti where mail=%s"
         cursor.execute(query, (cliente.mail))
@@ -62,7 +69,8 @@ class DAO:
         cnx.close()
         return len(row)>0
 
-    def hasProdotto(self, prodotto):
+    @staticmethod
+    def hasProdotto( prodotto):
         #cnx = mysql.connector.connect(
          #   user="root",
           #  password="rootroot",
@@ -79,7 +87,8 @@ class DAO:
         cnx.close()
         return len(row) > 0
 
-    def addProdotto(self, prodotto):
+    @staticmethod
+    def addProdotto( prodotto):
        # cnx = mysql.connector.connect(
         #    user="root",
         #    password="rootroot",
@@ -98,13 +107,15 @@ class DAO:
         cnx.close()
         return res
 
-    def addClienti(self, cliente):
-        cnx = mysql.connector.connect(
-            user="root",
-            password="rootroot",
-            host="127.0.0.1",
-            database="sw_gestionale",
-        )
+    @staticmethod
+    def addClienti( cliente):
+        #cnx = mysql.connector.connect(
+        #    user="root",
+         #   password="rootroot",
+           # host="127.0.0.1",
+          #  database="sw_gestionale")
+
+        cnx = dbConnect.getConnection()
         cursor = cnx.cursor()
         query="""insert into clienti(nome,mail, categoria) values(%s,%s,%s)"""
 
